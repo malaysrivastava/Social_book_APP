@@ -4,12 +4,14 @@ var router = express.Router();
 //login/landing page
 
 router.get('/',(req,res)=>{
-  res.send('Login')
+  res.render('login.hbs',{
+    layout: 'login',
+  })
 });
 
 //dashboardpage
 
 router.get('/dashboard',(req,res)=>{
-  res.send('Dashboard')
+  res.render('dashboard.hbs')
 });
 module.exports = router;
