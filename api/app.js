@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require('mongoose')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -9,6 +10,7 @@ const morgan = require('morgan')
 const exphbs = require('express-handlebars')
 const passport = require('passport')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 
 var app = express();
 
@@ -25,7 +27,8 @@ app.set('view engine','.hbs');
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized:false
+  saveUninitialized:false,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
 }))
 
 //passport middleware
@@ -59,7 +62,6 @@ app.listen(PORT,()=>{
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
